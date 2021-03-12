@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.SelectNewsMapper">
+
+<!--查询新闻所有信息以展示-->
+    <select id="selectAllNews" parameterType="map" resultType="com.study.studyplatform.pojo.News">
+        select *
+        from news
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="selectSumNews" resultType="long">
+        select count(*)
+        from news
+    </select>
+
+    <select id="selectAllNewsImages" resultType="String" parameterType="map">
+        select newsimages
+        from news
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="selectNewsBuNewsid" parameterType="Integer" resultType="com.study.studyplatform.pojo.News">
+        select newsinfo,newstime,newstitle,author
+        from news
+        where newsid=#{newsid}
+    </select>
+
+    <select id="selectNewsImagesById" resultType="String" parameterType="Integer">
+        select newsimages
+        from news
+        where newsid=#{newsid}
+    </select>
+
+
+
+</mapper>

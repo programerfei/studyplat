@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.SelectInfoMapper">
+
+<!--    查询悬赏所有数据总数-->
+    <select id="findSumReward" resultType="Long">
+        select count(*)
+        from comment
+    </select>
+
+<!--    根据关键字查询总数-->
+    <select id="findSumRewardByString" resultType="Long" parameterType="String">
+        select count(*)
+        from user,comment
+        where user.userid=comment.userid and rewardinfo
+        like concat('%',#{targetObject},'%')
+    </select>
+
+    <!--    根据用户名关键字查询总数-->
+    <select id="findSumRewardByStringName" resultType="Long" parameterType="String">
+        select count(*)
+        from user,comment
+        where user.userid=comment.userid and username
+            like concat('%',#{targetObject},'%')
+    </select>
+
+    <!--    根据用户id查询总数-->
+    <select id="findSumRewardByUserid" resultType="Long" parameterType="String">
+        select count(*)
+        from comment
+        where userid=#{userid}
+    </select>
+
+    <!--    初始化页面展示的句子，每页20条根据发布的最新数据-->
+    <!--    此处返回对象的头像地址-->
+    <select id="findRewardPro" parameterType="map" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,comment.commentid,comment.rewardtime,comment.rewardinfo,comment.rewardhits,user.signature,user.introduction,user.signature,user.introduction
+        from user,comment
+        where user.userid=comment.userid
+        order by comment.rewardtime desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+<!--    查询悬赏数据的图片链接-->
+    <select id="findRewardImages" parameterType="map" resultType="String">
+        select images
+        from user,comment
+        order by rewardtime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+<!--    根据关键字查询对应的图片链接结果-->
+    <select id="findRewardByStringImages" parameterType="ParamObject" resultType="String">
+        select images
+        from user,comment
+        where user.userid=comment.userid and rewardinfo
+        like concat('%',#{targetObject},'%')
+        order by comment.rewardtime desc
+        limit #{startIndex},#{pageSize}
+
+    </select>
+
+<!--    根据悬赏任务进行模糊查询-->
+    <select id="findRewardByString" parameterType="paramObject" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,comment.commentid,comment.rewardtime,comment.rewardinfo,comment.rewardhits,user.signature,user.introduction
+        from user,comment
+        where user.userid=comment.userid and rewardinfo
+        like concat('%',#{targetObject},'%')
+        order by comment.rewardtime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--    根据用户名查询对应的图片链接结果-->
+    <select id="findRewardByStringNameImages" parameterType="ParamObject" resultType="String">
+        select images
+        from user,comment
+        where user.userid=comment.userid and username
+        like concat('%',#{targetObject},'%')
+        order by comment.rewardtime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--    根据用户名进行模糊查询-->
+    <select id="findRewardByStringName" parameterType="paramObject" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,comment.commentid,comment.rewardtime,comment.rewardinfo,comment.rewardhits,user.signature,user.introduction
+        from user,comment
+        where user.userid=comment.userid and username
+        like concat('%',#{targetObject},'%')
+        order by comment.rewardtime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+<!--    根据悬赏内容id得到悬赏详情-->
+    <select id="findRewardById" resultType="com.study.studyplatform.pojo.ImagesUrl" parameterType="Integer">
+        select user.userid,user.username,user.gender,user.headportrait,comment.commentid,comment.rewardtime,comment.rewardinfo,comment.rewardhits,user.signature,user.introduction
+        from user,comment
+        where user.userid=comment.userid and commentid=#{commentid}
+    </select>
+
+<!--    根据悬赏id查询悬赏具体图片链接信息-->
+    <select id="findRewardImagesById" parameterType="Integer" resultType="String">
+        select images
+        from comment
+        where commentid=#{commentid}
+    </select>
+
+<!--    根据用户id查询用户的悬赏数据-->
+    <select id="findRewardProByUserid" parameterType="com.study.studyplatform.pojo.Params" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,comment.commentid,comment.rewardtime,comment.rewardinfo,comment.rewardhits,user.signature,user.introduction
+        from user,comment
+        where user.userid=comment.userid and comment.userid=#{userid}
+        order by comment.rewardtime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+<!--    根据用户id查询悬赏数据的图片链接-->
+    <select id="findRewardImagesByUserid" parameterType="com.study.studyplatform.pojo.Params" resultType="String">
+        select images
+        from comment
+        where userid=#{userid}
+        order by rewardtime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+</mapper>

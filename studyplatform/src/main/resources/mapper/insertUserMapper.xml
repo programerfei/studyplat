@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.InsertUserMapper">
+
+<!--    插入注册所用的数据,即注册-->
+    <insert id="insertRegist" parameterType="com.study.studyplatform.pojo.User">
+        insert into user (userid,username,password,usermail,status,code)
+        values (#{userid},#{username},#{password},#{usermail},#{status},#{code})
+    </insert>
+</mapper>

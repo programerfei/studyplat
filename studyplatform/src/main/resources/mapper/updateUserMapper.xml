@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.UpdateUserMapper">
+
+    <!--激活账户，修改用户状态-->
+    <update id="updateUserStatus" parameterType="com.study.studyplatform.pojo.User">
+        update user
+        set status=1,code=null
+        where userid=#{userid}
+    </update>
+
+<!--    更新用户邮箱没有激活的情况-->
+    <update id="updateUserByMail" parameterType="com.study.studyplatform.pojo.User">
+        update user
+        set username=#{username},password=#{password},code=#{code}
+        where userid=#{userid}
+    </update>
+
+<!--    修改用户信息,根据用户id-->
+    <update id="updateUser" parameterType="com.study.studyplatform.pojo.User">
+        update user
+        set username=#{username},headportrait=#{headportrait},gender=#{gender},signature=#{signature},introduction=#{introduction}
+        where userid=#{userid}
+    </update>
+
+</mapper>

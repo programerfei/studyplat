@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.SelectUserMapper">
+
+<!--根据激活码code查询用户-->
+    <select id="checkCode" parameterType="String" resultType="com.study.studyplatform.pojo.User">
+        select *
+        from user
+        where code=#{code}
+    </select>
+
+    <!--登录,根据 status=1 进行查询-->
+    <select id="loginUser" resultType="com.study.studyplatform.pojo.User" >
+        select *
+        from user
+        where username=#{username} and password=#{password} and status=1
+    </select>
+
+<!--    根据用户id或用户邮箱进行用户查询-->
+    <select id="selectUserByidmail" parameterType="String" resultType="com.study.studyplatform.pojo.User">
+        select *
+        from user
+        where userid=#{userid} or usermail=#{usermail}
+    </select>
+
+    <select id="selectPwdByUserid" parameterType="String" resultType="String">
+        select password
+        from user
+        where userid=#{userid}
+    </select>
+
+<!--    根据邮箱号查询用户-->
+    <select id="selectUserByMail" parameterType="String" resultType="com.study.studyplatform.pojo.User">
+        select *
+        from user
+        where usermail=#{usermail}
+    </select>
+
+<!--    根据id查询status-->
+    <select id="selectStatusById" parameterType="String" resultType="Integer">
+        select status
+        from user
+        where userid=#{userid}
+    </select>
+
+<!--    根据用户id查询用户-->
+    <select id="selectUserById" parameterType="String" resultType="com.study.studyplatform.pojo.User">
+        select *
+        from user
+        where userid=#{userid}
+    </select>
+
+<!--    <select id="selectEmoji" parameterType="String" resultType="String">-->
+<!--        select emoji-->
+<!--        from em-->
+<!--        where emoji_id=#{emoji_id}-->
+<!--    </select>-->
+</mapper>

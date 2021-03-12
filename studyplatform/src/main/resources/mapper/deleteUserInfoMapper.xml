@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.DeleteUserInfoMapper">
+
+<!--用户根据发布的id删除相应的数据-->
+    <delete id="deleteInfoByUserid" parameterType="Integer">
+        delete
+        from comment
+        where commentid=#{commentid}
+    </delete>
+
+    <!--用户根据发布的id删除相应的数据-->
+    <delete id="deleteStudyByUserid" parameterType="Integer">
+        delete
+        from studyplat
+        where studyplatid=#{studyplatid}
+    </delete>
+
+    <delete id="deleteReplyByReplyid" parameterType="Integer">
+        delete
+        from reply
+        where replyid=#{replyid}
+    </delete>
+
+</mapper>

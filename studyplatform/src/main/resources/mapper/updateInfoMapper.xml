@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.UpdateInfoMapper">
+
+<!--    发布内容和时间-->
+    <insert id="updateProduction" parameterType="com.study.studyplatform.pojo.Comment">
+        insert comment
+        set userid=#{userid},rewardinfo=#{rewardinfo},rewardtime=#{rewardtime},images=#{images}
+    </insert>
+
+<!--    点击量 +1-->
+    <update id="addProHits" parameterType="map">
+        update comment
+        set rewardhits=#{rewardhits}
+        where commentid=#{commentid}
+    </update>
+
+</mapper>

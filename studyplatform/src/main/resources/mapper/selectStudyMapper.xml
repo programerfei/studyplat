@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.studyplatform.dao.SelectStudyMapper">
+
+    <!--    查询学习区所有数据总数-->
+    <select id="findSumStudy" resultType="Long">
+        select count(*)
+        from studyplat
+    </select>
+
+    <!--    根据用户id查询总数-->
+    <select id="findSumStudyByUserid" resultType="Long" parameterType="String">
+        select count(*)
+        from studyplat
+        where userid=#{userid}
+    </select>
+
+    <!--    根据关键字查询总数-->
+    <select id="findSumStudyByString" resultType="Long" parameterType="String">
+        select count(*)
+        from user,studyplat
+        where user.userid=studyplat.userid and studyinfo
+            like concat('%',#{targetObject},'%')
+    </select>
+
+    <!--    根据用户名关键字查询总数-->
+    <select id="findSumStudyByStringName" resultType="Long" parameterType="String">
+        select count(*)
+        from user,studyplat
+        where user.userid=studyplat.userid and username
+            like concat('%',#{targetObject},'%')
+    </select>
+
+    <!--    初始化页面展示的句子，每页20条根据发布的最新数据-->
+    <!--    此处返回对象的头像地址-->
+    <select id="findStudyPro" parameterType="map" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,studyplat.studyplatid,studyplat.studytime,studyplat.studyinfo,studyplat.studyhits,user.signature,user.introduction
+        from user,studyplat
+        where user.userid=studyplat.userid
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--    查询学习区数据的图片链接-->
+    <select id="findStudyImages" parameterType="map" resultType="String">
+        select images
+        from user,studyplat
+        order by studytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--    根据关键字查询对应的图片链接结果-->
+    <select id="findStudyByStringImages" parameterType="ParamObject" resultType="String">
+        select images
+        from user,studyplat
+        where user.userid=studyplat.userid and studyinfo
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--    根据关键字查询对应的文件链接结果-->
+    <select id="findStudyByStringFiles" parameterType="ParamObject" resultType="String">
+        select files
+        from user,studyplat
+        where user.userid=studyplat.userid and studyinfo
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--    根据关键字查询对应的视频链接结果-->
+    <select id="findStudyByStringVideos" parameterType="ParamObject" resultType="String">
+        select videos
+        from user,studyplat
+        where user.userid=studyplat.userid and studyinfo
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--    根据悬赏任务进行模糊查询-->
+    <select id="findStudyByString" parameterType="paramObject" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,studyplat.studyplatid,studyplat.studytime,studyplat.studyinfo,studyplat.studyhits,user.signature,user.introduction
+        from user,studyplat
+        where user.userid=studyplat.userid and studyinfo
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--    根据用户名查询对应的图片链接结果-->
+    <select id="findStudyByStringNameImages" parameterType="ParamObject" resultType="String">
+        select images
+        from user,studyplat
+        where user.userid=studyplat.userid and username
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--    根据用户名查询对应的文件链接结果-->
+    <select id="findStudyByStringNameFiles" parameterType="ParamObject" resultType="String">
+        select files
+        from user,studyplat
+        where user.userid=studyplat.userid and username
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--    根据用户名查询对应的视频链接结果-->
+    <select id="findStudyByStringNameVideos" parameterType="ParamObject" resultType="String">
+        select videos
+        from user,studyplat
+        where user.userid=studyplat.userid and username
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+
+    </select>
+
+
+
+    <!--    根据用户名进行模糊查询-->
+    <select id="findStudyByStringName" parameterType="paramObject" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,studyplat.studyplatid,studyplat.studytime,studyplat.studyinfo,studyplat.studyhits,user.signature,user.introduction
+        from user,studyplat
+        where user.userid=studyplat.userid and username
+            like concat('%',#{targetObject},'%')
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--    根据学习区内容id得到学习详情-->
+    <select id="findStudyById" resultType="com.study.studyplatform.pojo.ImagesUrl" parameterType="Integer">
+        select user.userid,user.username,user.gender,user.headportrait,studyplat.studyplatid,studyplat.studytime,studyplat.studyinfo,studyplat.studyhits,user.signature,user.introduction
+        from user,studyplat
+        where user.userid=studyplat.userid and studyplatid=#{studyplatid}
+    </select>
+
+    <!--    根据学习区id查询学习区具体图片链接信息-->
+    <select id="findStudyImagesById" parameterType="Integer" resultType="String">
+        select images
+        from studyplat
+        where studyplatid=#{studyplatid}
+    </select>
+
+    <!--    根据学习区id查询学习区具体文件链接信息-->
+    <select id="findStudyFilesById" parameterType="Integer" resultType="String">
+        select files
+        from studyplat
+        where studyplatid=#{studyplatid}
+    </select>
+
+    <!--    根据学习区id查询学习区具体视频链接信息-->
+    <select id="findStudyVideosById" parameterType="Integer" resultType="String">
+        select videos
+        from studyplat
+        where studyplatid=#{studyplatid}
+    </select>
+
+    <select id="findStudyFilesNameById" parameterType="Integer" resultType="String">
+        select filename
+        from studyplat
+        where studyplatid=#{studyplatid}
+    </select>
+
+    <select id="findStudyVideosNameById" parameterType="Integer" resultType="String">
+        select videoname
+        from studyplat
+        where studyplatid=#{studyplatid}
+    </select>
+
+    <!--根据用户id查询用户的学习区数据-->
+    <select id="findStudyProByUserid" parameterType="com.study.studyplatform.pojo.Params" resultType="com.study.studyplatform.pojo.ImagesUrl">
+        select user.userid,user.username,user.gender,user.headportrait,studyplat.studyplatid,studyplat.studytime,studyplat.studyinfo,studyplat.studyhits,user.signature,user.introduction
+        from user,studyplat
+        where user.userid=studyplat.userid and studyplat.userid=#{userid}
+        order by studyplat.studytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--    根据用户id查询学习区数据的图片链接-->
+    <select id="findStudyImagesByUserid" parameterType="com.study.studyplatform.pojo.Params" resultType="String">
+        select images
+        from studyplat
+        where userid=#{userid}
+        order by studytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+<!--    根据学习区id查询评论-->
+    <select id="findReplyStudyByUserid" parameterType="com.study.studyplatform.pojo.ReplyParam" resultType="com.study.studyplatform.pojo.Reply">
+        select reply.replyid,reply.userid,user.username,user.gender,user.headportrait,reply.replyinfo,reply.replytime,user.signature,user.introduction
+        from reply,user
+        where  user.userid=reply.userid and reply.studyplatid=#{studyplatid}
+        order by reply.replytime desc
+            limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="findSumReplyById" resultType="long" parameterType="Integer">
+        select count(*)
+        from reply
+        where studyplatid=#{studyplatid}
+    </select>
+
+
+</mapper>
